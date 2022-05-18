@@ -1,0 +1,82 @@
+---
+title: "Spatial Analysis with leaflet"
+author: "Nicholas Horton (nhorton@amherst.edu)"
+date: "May 19, 2022"
+output:
+  html_document:
+    fig_height: 5
+    fig_width: 7
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+```{r, setup, include=FALSE}
+library(tidyverse)   # Load additional packages here 
+library(leaflet)
+library(macleish)
+
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+knitr::opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+```
+
+
+
+### Mapping Amherst
+
+```{r eval = TRUE}
+library(leaflet)
+m <- leaflet() %>%
+  addTiles() %>% # Add OpenStreetMap tiles
+  addMarkers(lng = -72.516, lat = 42.369, popup = "Amherst College<br>Founded 1821")
+m
+```
+
+### Mapping MacLeish
+
+```{r eval = TRUE}
+library(mdsr)
+library(macleish)
+names(macleish_layers)
+summary(macleish_layers[["buildings"]])
+```
+
+```{r eval = TRUE}
+m <- leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = macleish_layers[["boundary"]],
+              weight = 1) %>%
+  addPolygons(data = macleish_layers[["buildings"]],
+              weight = 1) %>%
+  addMarkers(data = subset(macleish_layers[["landmarks"]], grepl("Met", Label)), 
+             popup = ~ Label)
+m
+```
+
+### Challenge 1:
+
+In groups of two, create a map of the MacLeish field station that includes some other attributes not already used here.  
+
+```{r}
+# your solution here...
+
+```
+
+
+### Challenge 2: 
+
+Use the https://github.com/mcconvil/pdxTrees package and leaflet to create an interactive map of trees in public parks in Portland, OR. (See https://teachdatascience.com/datapackage/ for some examples of how to access the data and the RStudio leaflet pages for examples.)  Your map should utilize some feature of leaflet beyond what is included in this lab.  Think carefully about how to include multiple dimensions of data in your interactive map.
+
+```{r}
+#remotes::install_github("mcconvil/pdxTrees")
+library(pdxTrees)
+```
+
+SUBMISSION INSTRUCTIONS: to receive full credit for this lab activity, please upload both your Rmd file and your formatted html file to Moodle (one submission per group).
+Both of your names must be included in the yaml header.
+Deadline is midnight on Tuesday, November 12th.
