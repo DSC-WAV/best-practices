@@ -29,6 +29,8 @@ knitr::opts_chunk$set(
 
 ### Mapping Amherst
 
+Let's start with a simple example where we create an interactive map at a specified point.
+
 ```{r eval = TRUE}
 library(leaflet)
 m <- leaflet() %>%
@@ -38,6 +40,10 @@ m
 ```
 
 ### Mapping MacLeish
+
+The MacLeish Field Station is a 250 acre patchwork of forest and pasture land in Whately, MA owned and operated by Smith College.
+A data package in R is available with information about the station and the surrounding area.
+
 
 ```{r eval = TRUE}
 library(mdsr)
@@ -70,11 +76,19 @@ In groups of two, create a map of the MacLeish field station that includes some 
 
 ### Challenge 2: 
 
+pdxTrees is a data package composed of information on inventoried trees in Portland, OR.
+There are two datasets that can be accessed with this package:
+
+- get_pdxTrees_parks() pulls in data on up to 25,534 trees from 174 Portland parks.
+- get_pdxTrees_streets() pulls in data on up to 218,602 trees located on Portland’s streets. A street tree is loosely defined as a tree generally in the public right-of-way, usually between the sidewalk and the street.
+
 Use the https://github.com/mcconvil/pdxTrees package and leaflet to create an interactive map of trees in public parks in Portland, OR. (See https://teachdatascience.com/datapackage/ for some examples of how to access the data and the RStudio leaflet pages for examples.)  Your map should utilize some feature of leaflet beyond what is included in this lab.  Think carefully about how to include multiple dimensions of data in your interactive map.
 
 ```{r}
 #remotes::install_github("mcconvil/pdxTrees")
 library(pdxTrees)
+pdxTrees_parks <- get_pdxTrees_parks()
+glimpse(pdxTrees_parks)
 ```
 
 SUBMISSION INSTRUCTIONS: to receive full credit for this lab activity, please upload both your Rmd file and your formatted html file to Moodle (one submission per group).
