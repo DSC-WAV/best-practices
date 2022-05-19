@@ -1,11 +1,9 @@
+# Shiny example of date and conditional panel
 # Nicholas Horton
-# nhorton@amherst.edu   Sun Oct 13 06:29:48 CDT 2019
+# nhorton@amherst.edu   May 19, 2022
 # with thanks to the RStudio dynamic UI help page
 library(shiny)
-library(ggplot2)
-library(stringr)
-library(dplyr)
-library(DT)
+library(tidyverse)library(DT)
 library(tools)
 library(macleish)
 
