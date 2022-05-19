@@ -1,6 +1,8 @@
 #
 # This is a Shiny web application written by two students. You can run the application by clicking
 # the 'Run App' button above.
+# Find out more about Roadless USA here:
+#    https://www.amstat.org/asa/files/pdfs/stew/PercentWithinMileofRoad.pdf
 #
 # Find out more about building applications with Shiny here:
 #
