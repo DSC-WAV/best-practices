@@ -28,6 +28,7 @@ knitr::opts_chunk$set(
 ```
 
 
+See MDSR2's chapters on geospatial data for more examples and exercises: https://mdsr-book.github.io/mdsr2e/ch-spatial.html
 
 ### Mapping Amherst
 
