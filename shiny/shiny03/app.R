@@ -1,3 +1,5 @@
+# Shiny app to explore events and buttons
+# Nicholas Horton (nhorton@amherst.edu). May 19, 2022
 library(tidyverse)
 library(shiny)
 library(shinybusy)
