@@ -1,0 +1,83 @@
+---
+title: "Text analysis and regular expressions"
+author: "Nicholas Horton (nhorton@amherst.edu)"
+date: "May 19, 2022"
+output:
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 5
+    fig_width: 7
+  word_document:
+    fig_height: 3
+    fig_width: 5
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, setup, include=FALSE}
+library(tidyverse)   # Load additional packages here 
+library(tidytext)
+#remotes::install_github("Amherst-Statistics/DickinsonPoems")
+library(DickinsonPoems)
+
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+knitr::opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+```
+
+Note: you'll need to:
+
+1. install the DickinsonPoems package and
+2. run `get_sentiments("afinn")` interactively
+
+to be able to knit this.
+
+
+
+### Warmup #1
+
+How often does the word "science" appear in Emily Dickinson’s poetry?
+
+```{r}
+all_poems <- list_poems() %>%
+  map(get_poem) %>%
+  unlist() %>%
+  enframe(value = "words") %>%
+  unnest_tokens(word, words)
+head(all_poems)
+```
+
+```{r echo = TRUE}
+all_poems %>%
+  filter(stringr::str_detect(word, "science"))
+```
+
+### Warmup #2
+
+Classify Emily Dickinson's poem *The Lonely House* as either positive or negative using the `AFINN` lexicon.Does this match with your own interpretation of the poem?
+
+
+```{r}
+poem <- get_poem("gutenberg1.txt014")
+poem
+```
+
+
+```{r}
+# need to first run `get_sentiments("afinn")` interactively.
+poem_sentiments <- data.frame(poem) %>%
+  unnest_tokens(word, poem) %>%
+  inner_join(get_sentiments("afinn"))
+
+sum(poem_sentiments$value) # negative value
+```
+
+
+### Homework
+
+Use the collection of Emily Dickinson poems to identify patterns or insights.
+This is a very open ended assignment: you may pick a few poems or consider all of them.
+
