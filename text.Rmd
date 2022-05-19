@@ -14,6 +14,8 @@ output:
     fig_width: 5
 editor_options: 
   chunk_output_type: console
+params:
+  evalval: TRUE
 ---
 
 ```{r, setup, include=FALSE}
@@ -36,8 +38,82 @@ Note: you'll need to:
 to be able to knit this.
 
 
+The text analytics chapter in MDSR2 has more examples and exercises: https://mdsr-book.github.io/mdsr2e/ch-text.html
+
+# Regular expressions
+
+Regular expressions are important in text processing.
+Wikipedia describe them as follows:
+
+- Each character in a regular expression is either understood to be a metacharacter with its special meaning, or a regular character with its literal meaning.
+- Together, they can be used to identify textual material of a given pattern, or process a number of instances of it that can vary from a precise equality to a very general similarity of the pattern.
+- The pattern sequence itself is an expression that is a statement in a language designed specifically to represent prescribed targets in the most concise and flexible way to direct the automation of text processing of general text files, specific textual forms, or of random input strings.
+
 
 ### Warmup #1
+
+I provide a workshop to students with the output suppressed and have them work in groups to explain what is happening for each of the 23 patterns being tested.
+
+They are asked to put their summaries on the board, then start to work on the next problems
+
+```{r eval=params$evalval}
+x <- c("popular", "popularity", "popularize", "popularise", 
+      "Popular", "Population", "repopulate", "reproduce", 
+      "happy family", "happier\tfamily", " happy family", "P6dn")
+grep(pattern = 'pop', x)  #1 
+grep(pattern = '^pop', x) #2
+grep(pattern = 'populari[sz]e', x) #3 
+grep(pattern = 'pop.*e', x) #4
+grep(pattern = 'p[a-z]*e', x) #5
+grep(pattern = '^[Pp][a-z]+.*n', x) #6
+grep(pattern = '^[^Pp]', x) #7
+grep(pattern = '^[A-Za-p]', x) #8
+grep(pattern = '[ ]', x) #9
+grep(pattern = '[\t]', x) #10
+grep(pattern = '[ \t]', x) #11
+grep(pattern = '^[ ]', x) #12
+nchar(x)==7 #13
+```
+
+
+```{r, eval = TRUE}
+ds <- DickinsonPoems::get_poem("gutenberg3.txt249")
+ds <- ds[ds != " "]
+ds
+```
+
+```{r, eval=params$evalval}
+grep('third|twice', ds)   #14
+grep('\\.', ds)  #15
+grep('all|me|we', ds) #16
+```
+
+
+```{r, eval=params$evalval}
+options(scipen=5)
+x <- c("$100.04", "100,000", "1000", "no more than $10,000")
+as.numeric(x)  #17
+as.numeric(gsub("[$,.]", "", x)) #18
+readr::parse_number(x) #19
+```
+
+```{r, eval=params$evalval}
+library(qdapRegex)
+x <- c("Scene 1 (in a dark room)", "Where are the #tweeters?")
+rm_round(x) #20
+rm_round(x, extract = TRUE) #21
+unlist(rm_hash(x, extract = TRUE)) #22
+unlist(rm_between(ds, "so", "to", extract = TRUE))   #23
+```
+
+
+
+
+
+
+### Warmup #2
+
+Next I start to have students work through other text data formats.
 
 How often does the word "science" appear in Emily Dickinson’s poetry?
 
@@ -55,9 +131,12 @@ all_poems %>%
   filter(stringr::str_detect(word, "science"))
 ```
 
-### Warmup #2
+### Warmup #3
 
-Classify Emily Dickinson's poem *The Lonely House* as either positive or negative using the `AFINN` lexicon.Does this match with your own interpretation of the poem?
+Finally, I introduce sentiment analysis.
+
+Classify Emily Dickinson's poem *The Lonely House* as either positive or negative using the `AFINN` lexicon.
+Does this match with your own interpretation of the poem?
 
 
 ```{r}
